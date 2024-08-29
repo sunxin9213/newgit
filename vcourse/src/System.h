@@ -49,9 +49,30 @@ class System
         double last_image_time_ = 0.0;
         int pub_count_ = 1;
 
-        std::queue<>
-        std::condition_variable con;
-        
+        std::queue<ImuConstPtr> imu_buf_;
+        std::queue<ImgConstPtr> img_buf_;
+        std::condition_variable con_;
+        int sum_if_wait_ = 0;
+
+        std::mutex m_buf_;
+        std::mutex m_state_;
+        std::mutex i_buf_;
+        std::mutex m_estimator_;
+
+        double latest_time_;
+        Eigen::Vector3d cur_acc_;
+        Eigen::Vector3d cur_gyr_; 
+        Eigen::Vector3d tmp_P_;
+        Eigen::Quaterniond tmp_Q_;
+        Eigen::Vector3d tmp_V_;
+        Eigen::Vector3d tmp_ba_;
+        Eigen::Vector3d tmp_bg_;
+        bool init_feature_ = false;///记录初始化状态？
+        bool init_imu_ = 1;
+        double last_imu_time_;
+        std::vector<Eigen::Vector3d> vPath_;
+        bool bStart_backend_;
+        std::vector<std::pair<std::vector<ImuConstPtr>, ImgConstPtr>> getMeasurements();               
 
 
         std::vector<uchar> v_status_;
