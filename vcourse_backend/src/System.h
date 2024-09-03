@@ -6,7 +6,6 @@
 #include <cv.h>
 #include <opencv2/opencv.hpp>
 
-
 struct IMU_MSG
 {
     double header;
@@ -16,7 +15,7 @@ struct IMU_MSG
 
 typedef std::shared_ptr<IMU_MSG const> ImuConstPtr;
 
-struct IMG_MSG
+sturct IMG_MSG
 {
     double header;
     vector<Vector3d> points;
@@ -25,7 +24,7 @@ struct IMG_MSG
     vector<float> v_point;
     vector<float> velocity_x;
     vector<float> velocity_y;
-};
+}
 
 typedef std::shared_ptr<IMG_MSG const> ImgConstPtr;
 
@@ -36,10 +35,8 @@ class System
         explicit System(std::string config_path);
         ~System();
 
-        FeatureTracker trackerData[NUM_OF_CAM];
-
-        void ImageDataCallback(double stamp, cv::Mat & img);
-        void ImuDataCallback(double stamp, const Eigen::Vector3d & vGyr, const Eigen::Vector3d & vAcc);
+        void ImageDataCallback(double sStamp, cv::Mat & img);
+        void ImuDataCallback(double sStamp, const Eigen::Vector3d & vGyr, const Eigen::Vector3d & vAcc);
         void ProcessBackEnd();
 
     private:
@@ -74,10 +71,27 @@ class System
         bool init_imu_ = 1;
         double last_imu_time_;
         std::vector<Eigen::Vector3d> vPath_;
-        bool bStart_backend_ = false;
+        bool bStart_backend_;
         std::vector<std::pair<std::vector<ImuConstPtr>, ImgConstPtr>> getMeasurements();               
+
 
         std::vector<uchar> v_status_;
         std::vector<float> v_err_;
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #endif
